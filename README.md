@@ -39,19 +39,43 @@ ZIP to FIPS codes once, then filter.
 | `jurisdiction` | Human-readable name |
 | `category` | crime, calls-for-service, 311, permits, zoning, assessor, deeds, courts, inspections, schools, transit, parks, elections, parcels, news, civic, other |
 | `name`, `url` | What it is and where |
-| `api_type` | socrata / arcgis / ckan / rss / html / pdf / manual |
+| `platform` | The **product** behind it: socrata, arcgis-hub, accela, tyler-eagle, granicus, civicplus, seeclickfix, … |
+| `api_type` | The **access shape**: socrata / arcgis / ckan / rss / html / pdf / manual |
 | `geo_filter` | How to narrow it to a ZIP: a field name, or `point-in-polygon` / `district-crosswalk` / `city-name` / `none` |
 | `source_class` | primary / interestedPrimary / secondary |
 | `status` | live / degraded / manual-only / dead |
+| `update_cadence` | realtime … annual / irregular |
+| `lag_days` | Typical days between event and publication |
+| `data_maturity` | preliminary / final / revised / mixed |
+| `history_start` | Earliest available record |
+| `retention` | How much history stays live (`full`, `4-weeks`, `current-only`, …) |
+| `quality` | excellent / good / fair / poor / unusable |
 | `last_verified` | ISO date the row was actually checked |
 | `kit_version` | What verified it — **never a person** |
-| `traps` | Semicolon-separated hard-won gotchas |
+| `traps` | Mechanical gotchas that break code or silently return wrong rows |
+| `insights` | Interpretive observations: what the data measures vs appears to measure |
 | `notes` | What it is good for |
 
-**The `traps` column is the most valuable one.** URLs are findable by anyone;
-what costs hours to learn is that a name field is space-padded so equality
-filters return zero rows with HTTP 200, or that a permits feed runs a week
-behind so a nominal weekly window is always empty and prints as "none issued."
+Full definitions in [SCHEMA.md](SCHEMA.md). Required: through `status`, plus
+`last_verified` and `kit_version`. Everything else may be blank — **blank means
+unknown, never a default**, because the next publisher will trust what is there.
+
+**`platform` is the column that transfers.** A URL is local knowledge; a product
+is general knowledge. An Accela permit portal behaves like an Accela permit
+portal in any state, so `registry.mjs search accela` surfaces what publishers in
+other counties learned about the same software you are about to meet.
+
+**The lag and maturity columns are what keep numbers honest.** A feed seven days
+behind returns zero for "this week" every week — printed, that is a fabricated
+"none were issued" rather than a gap. Preliminary data gets reclassified for
+weeks, so a re-query will not match what was printed. Recording these once saves
+every later publisher from publishing a true-looking lie.
+
+**`traps` and `insights` are the columns worth the most.** Traps break your code
+(a space-padded name field makes equality filters return zero rows with HTTP
+200). Insights change how you write (about 46% of one city's "calls for service"
+are officer-initiated, so the total measures deployment, not demand). URLs are
+findable by anyone; these cost an afternoon each.
 
 ## Using it
 
