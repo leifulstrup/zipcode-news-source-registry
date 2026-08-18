@@ -30,9 +30,11 @@ jobs:
         run: node bin/diagnose.mjs --help
       - name: diagnose exits 2 on a usage error
         run: |
-          if node bin/diagnose.mjs; then
-            echo "::error::expected a usage error to exit non-zero"; exit 1
-          fi
-          node bin/diagnose.mjs; code=$?
-          if [ "$code" != "2" ]; then echo "::error::expected exit 2, got $code"; exit 1; fi
-          echo "usage error exits 2"
+          # `shell: bash -e` aborts the whole step on ANY non-zero command, so a
+          # bare `node bin/diagnose.mjs` (which correctly exits 2) killed the step
+          # before the assertion could run. Capture the code without tripping -e.
+          code=0
+          node bin/diagnose.mjs >/dev/null 2>&1 || code=$?
+          if [ "$code" != "2" ]; then echo "::error::expected exit 2 on usage error, got $code"; exit 1; fi
+          node bin/diagnose.mjs --help >/dev/null || { echo "::error::--help should exit 0"; exit 1; }
+          echo "usage error exits 2; --help exits 0"
