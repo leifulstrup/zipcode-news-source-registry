@@ -16,6 +16,53 @@ schema changed. Two things move independently, and the version reflects the
 
 Format follows [Keep a Changelog](https://keepachangelog.com); dates are UTC.
 
+## [2.1.0] — 2026-08-18
+
+### Added
+- **The toolkit** (`lib/`, `bin/diagnose.mjs`, `test/`) — see
+  [TOOLKIT.md](TOOLKIT.md). The CSV records *what* a source is and `patterns/`
+  explains *how* each product behaves; this adds the executable form, so the
+  parts of the work that are identical in every jurisdiction stop being
+  rewritten in every jurisdiction.
+  - `lib/http` (timeout, retry, browser UA, errors-inside-a-200),
+    `lib/socrata` and `lib/arcgis` (count · maxDate · rows · groupCounts ·
+    paginate · schema, plus the ArcGIS date-dialect prober and Hub org search),
+    `lib/clean` (padding detection, date coercion across epoch/ISO/`M/D/YYYY`,
+    dedupe, the string-date detector), `lib/checks` (the assertions a probe
+    should make, including semantic ones), `lib/csv` (this schema, executable).
+  - **`bin/diagnose.mjs`** — point it at a URL and get, in about a minute:
+    platform, liveness, fields **with their types**, PII-shaped fields,
+    freshness measured from the data rather than the portal's metadata,
+    retention (rolling vs full — which decides whether year-over-year is even
+    possible), padded string fields, how the source can be filtered to a ZIP —
+    and a **draft registry row** with a list of what a human must still supply.
+  - `test/` — 58 unit tests, zero dependencies, no network. Live behaviour is
+    proven by running `diagnose` against a real endpoint, deliberately not in
+    CI: a check that depends on a municipal portal fails for reasons unrelated
+    to the code, and a flaky check trains people to ignore it.
+- `patterns/arcgis.md`, matching the depth of `patterns/socrata.md`.
+- `.github/workflows/ci.yml` — Node 20/22/24/latest matrix.
+
+### Changed
+- **The safety boundary is refined, not weakened.** README, ARCHITECTURE,
+  CONTRIBUTING and `patterns/README` said "data only, never code". The rule was
+  never "no code": it is that **a repository anyone can open a pull request
+  against must never be a runtime dependency of a pipeline that publishes under
+  someone's name.** Nothing here is installed or imported — `lib/` is copied and
+  reviewed, `diagnose` is run by hand. "Leads, not authority" is unchanged, and
+  now applies explicitly to rows `diagnose` drafts: it cannot know which
+  government publishes a dataset, its category, or its class.
+
+### Notes
+Two live runs during development found real instances of documented traps: a
+Socrata dataset whose catalog claims a 2026 update while its newest record is
+2025-03-28 (508 days stale), carrying four zero-padded code fields; and an
+ArcGIS layer holding 1 row older than 400 days out of 2051, where a naive
+year-over-year query would print a five-figure false increase. Building the
+ArcGIS client also surfaced a portability bug now handled: some servers
+uppercase `outStatisticFieldName`, so a case-sensitive read returns undefined
+and freshness silently fails on a healthy service.
+
 ## [2.0.0] — 2026-08-18
 
 ### Changed (breaking: 17 → 25 columns)

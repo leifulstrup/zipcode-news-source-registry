@@ -1,8 +1,8 @@
 {
   "name": "zipcode-news-source-registry",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "private": false,
-  "description": "Community-vetted local data sources, plus a reference toolkit for querying, cleaning and diagnosing them. Not published to npm — copy what you need.",
+  "description": "Community-vetted local data sources, plus a reference toolkit for querying, cleaning and diagnosing them. Not published to npm \u2014 copy what you need.",
   "type": "module",
   "license": "MIT",
   "engines": {
