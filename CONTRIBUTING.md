@@ -25,6 +25,37 @@ organizations.
   this source on `last_verified`. "It appears in a search result" is not a check.
 - **Paywalled scrape recipes, credentials, or API keys.**
 
+## Three ways to contribute, in order of friction
+
+**1. Let your agent open the PR for you (easiest if you run the starter kit).**
+Ask it to follow `.claude/skills/contribute-sources/SKILL.md`. It exports rows
+from your approved registry, shows you exactly what would be published, forks,
+branches, and opens a pull request with your evidence in the body — you approve
+before anything leaves your machine. You never touch CSV.
+
+**2. Open an issue instead of a PR.** Use the "Suggest a source" template. No
+fork, no CSV, no git. A maintainer turns it into a row. This is also the right
+path if you would rather your GitHub account not be publicly associated with a
+particular ZIP code — see the privacy note below.
+
+**3. Edit the CSV and open a PR yourself.** The traditional path, documented
+below.
+
+Whichever you use, run `node bin/validate.mjs` if you can: it checks schema,
+vocabularies, FIPS shapes, duplicate ids, sort order and the identity rules, so
+review can be about judgment rather than mechanics. CI runs it on every PR.
+
+## A privacy note worth reading before you contribute
+
+The **rows** never contain identity — that is enforced by the validator. But a
+**pull request** is public and carries your GitHub account, which means anyone
+can infer that you are interested in the jurisdictions you contribute to. For
+most contributors that is fine and even useful. If it is not fine for you — you
+publish pseudonymously, or you would rather not link your account to the ZIP
+code you live in — use path 2 and open an issue with the details, or ask someone
+to submit on your behalf. Neither costs the registry anything, and a contribution
+you feel safe making is worth more than one you don't.
+
 ## How to add or update a row
 
 1. Fork, edit `data/<STATE>.csv` (create it from the header of another state file

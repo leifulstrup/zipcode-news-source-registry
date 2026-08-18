@@ -28,6 +28,9 @@ jobs:
         run: node --test
       - name: diagnose --help works
         run: node bin/diagnose.mjs --help
+      - name: Data validates against the schema
+        run: node bin/validate.mjs
+
       - name: diagnose exits 2 on a usage error
         run: |
           # `shell: bash -e` aborts the whole step on ANY non-zero command, so a

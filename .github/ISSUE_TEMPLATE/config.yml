@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Using this with the starter kit
+    url: https://github.com/leifulstrup/zipcode-news-starter-kit
+    about: Questions about the publishing kit itself belong there, not here.
