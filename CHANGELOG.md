@@ -16,6 +16,31 @@ schema changed. Two things move independently, and the version reflects the
 
 Format follows [Keep a Changelog](https://keepachangelog.com); dates are UTC.
 
+## [2.2.0] — 2026-08-18
+
+### Added
+- **`bin/validate.mjs`, running in CI on every pull request.** A maintainer
+  cannot re-verify every source in every PR — that is the whole reason consumers
+  are told to treat rows as leads. So everything mechanical is settled before a
+  human opens the diff: required columns, controlled vocabularies, FIPS shapes,
+  URL and date formats, duplicate `source_id`s, sort order, and the rule that
+  cannot be left to good intentions — **no contributor or resident identity**,
+  matched by shape (emails, phone numbers, street addresses, coordinate pairs,
+  parcel numbers). Warnings carry judgment prompts rather than blocking: a
+  verification date over 180 days old, a row with neither traps nor insights, a
+  dead row with no explanation.
+- **Pull-request and issue templates.** The PR template asks what you actually
+  ran, since a row is a claim that you fetched it on `last_verified` — "it
+  appeared in a search result" is not a check.
+- **Three documented contribution paths, ordered by friction**: an agent-driven
+  PR from the starter kit's `/contribute-sources`, an issue for anyone who would
+  rather not touch CSV, and a hand-edited PR.
+- **A privacy note.** Rows never carry identity — enforced, not trusted. But a
+  pull request is public and carries a GitHub account, so anyone who would rather
+  not have theirs associated with a particular ZIP code should use the issue
+  path. A contribution someone feels safe making is worth more than one they
+  don't.
+
 ## [2.1.0] — 2026-08-18
 
 ### Added
