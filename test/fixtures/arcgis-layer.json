@@ -1,0 +1,12 @@
+{
+  "id": 39,
+  "name": "Crime Incidents - Last 30 Days",
+  "type": "Feature Layer",
+  "fields": [
+    { "name": "CCN", "type": "esriFieldTypeString", "alias": "CCN" },
+    { "name": "START_DATE", "type": "esriFieldTypeDate", "alias": "Start Date" },
+    { "name": "COLLISION_DATE", "type": "esriFieldTypeString", "alias": "Collision Date" },
+    { "name": "PSA", "type": "esriFieldTypeString", "alias": "PSA" },
+    { "name": "LATITUDE", "type": "esriFieldTypeDouble", "alias": "Latitude" }
+  ]
+}

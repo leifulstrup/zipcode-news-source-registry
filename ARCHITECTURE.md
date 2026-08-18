@@ -19,6 +19,8 @@ asynchronously, through reviewed pull requests.
    │   data/<STATE>.csv   what exists, where, how to filter, what it      │
    │                      measures, how stale, what breaks                │
    │   patterns/          per-PLATFORM reference recipes (read, adapt)    │
+   │   lib/ + bin/        tested reference code and bin/diagnose.mjs      │
+   │                      (copied by hand, never imported — TOOLKIT.md)   │
    └──────────────────────────────────────────────────────────────────────┘
           ▲                             ▲                             ▲
           │  2. export → pull request → human review → merge            │
@@ -51,7 +53,7 @@ write here, and no agent may open a PR without its publisher's say-so.
    public-record facts about public data sources.
 3. **Nothing here is auto-executed.** See below.
 
-## Sharing code: patterns, not packages
+## Sharing code: patterns and reference implementations, not packages
 
 The valuable thing about `platform` is that it generalizes. An Accela permit
 portal behaves like an Accela permit portal in any state; Socrata takes SoQL
@@ -60,15 +62,26 @@ dialects, the count-then-fetch idiom, how to clean the fields these products
 emit — is worth writing down **once per platform** rather than once per
 jurisdiction.
 
-`patterns/<platform>.md` holds that: a reference recipe with worked query
-examples, the known failure modes of that product, and the cleaning steps its
-output usually needs.
+Two forms of the same knowledge:
 
-**The boundary that keeps this from becoming a supply chain:** patterns are
-**read and adapted by an agent, then reviewed by a publisher** — they are never
-fetched and executed. The registry ships no runnable package, no install step,
-no import URL. A publisher's adapter lives in their own repo, written by their
-own agent, reviewed by them.
+- `patterns/<platform>.md` — the reference recipe: worked query examples, known
+  failure modes, the cleaning steps that product's output needs, and the probes
+  worth keeping permanently.
+- `lib/<platform>.mjs` plus `bin/diagnose.mjs` — the executable form, unit
+  tested, described in [TOOLKIT.md](TOOLKIT.md). `diagnose` answers "what is
+  this source, really?" in a minute and drafts a registry row from what it
+  found.
+
+**The boundary that keeps this from becoming a supply chain:** all of it is
+**read, copied and reviewed by a publisher** — never fetched and executed by a
+running pipeline. The registry publishes no package, ships no install step, and
+exposes no import URL; `diagnose` is a tool you run by hand while evaluating a
+source, not a step in anyone's weekly job. A publisher's adapter lives in their
+own repo, written by their own agent, reviewed by them.
+
+The rule is therefore not "no code" — it is that **a repository anyone can open
+a pull request against must never be a runtime dependency of a system that
+publishes under someone's name.**
 
 That distinction is deliberate. Reading an open-source example and writing your
 own code from it is ordinary engineering with a human in the loop. Fetching code
@@ -94,7 +107,10 @@ Nothing enforces contribution, so it has to be worth doing:
 ## What this is deliberately not
 
 - **Not a data pipeline.** No data flows through here — only descriptions of
-  where data lives and what it means. Instances fetch sources directly.
+  where data lives and what it means, and code for reading it. Instances fetch
+  sources directly.
+- **Not a dependency.** Nothing here is installed or imported by a running
+  publication.
 - **Not a registry of publications.** It does not know who publishes what, or
   where. There is no directory of instances, by design.
 - **Not authoritative.** It records what someone verified on a date. Agencies

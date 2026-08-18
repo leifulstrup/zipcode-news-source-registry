@@ -16,8 +16,11 @@ organizations.
 - **Any personal information**: no contributor names, emails, addresses,
   coordinates, or instance URLs. `kit_version` records what verified a row, not
   who. PRs containing personal data will be closed rather than edited.
-- **Code.** This registry is data. Consumers write their own adapters; shipping
-  code through a shared channel is a supply-chain risk.
+- **Jurisdiction-specific adapters.** The `data/` rows are data, full stop. Code
+  belongs in `lib/` only when it is *generic to a platform* (Socrata, ArcGIS,
+  Accela) and unit tested — see [TOOLKIT.md](TOOLKIT.md). Your county's adapter
+  lives in your own repo. Nothing here is ever installed or imported by a running
+  publication; anything a publisher uses, they copy and review first.
 - **Anything you have not actually fetched.** A row is a claim that you checked
   this source on `last_verified`. "It appears in a search result" is not a check.
 - **Paywalled scrape recipes, credentials, or API keys.**

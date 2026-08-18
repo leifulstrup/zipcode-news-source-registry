@@ -1,0 +1,12 @@
+{
+  "id": "abcd-1234",
+  "name": "Example Incidents",
+  "rowsUpdatedAt": 1787000000,
+  "columns": [
+    { "fieldName": "incident_id", "name": "Incident ID", "dataTypeName": "text" },
+    { "fieldName": "date_occ", "name": "Date Occurred", "dataTypeName": "calendar_date" },
+    { "fieldName": "area_name", "name": "Area", "dataTypeName": "text" },
+    { "fieldName": "zip_code", "name": "ZIP", "dataTypeName": "text" },
+    { "fieldName": "lat", "name": "Latitude", "dataTypeName": "number" }
+  ]
+}

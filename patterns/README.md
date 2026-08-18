@@ -14,13 +14,19 @@ it once per county.
 
 **These are reference recipes, not a library.** An agent reads the pattern for
 its source's platform and writes an adapter in its own repo, which its publisher
-reviews. Nothing here is installed, imported, or run.
+reviews. Nothing here is installed or imported as a dependency.
 
 That boundary is the whole safety model. Reading an example and writing your own
 code from it is ordinary engineering with a human in the loop. Executing code
 fetched from a shared server, inside a pipeline that publishes under your name,
 is an unaudited dependency. The first compounds knowledge; the second compounds
 risk.
+
+Each pattern has an executable counterpart in [`lib/`](../TOOLKIT.md) —
+`patterns/socrata.md` alongside `lib/socrata.mjs`, `patterns/arcgis.md`
+alongside `lib/arcgis.mjs`. Same rule applies: copy what you need into your own
+repo. The document explains *why*; the module shows *how*; neither is a runtime
+dependency of your publication.
 
 ## What a pattern document should contain
 
@@ -40,3 +46,7 @@ risk.
 Same rules as the CSV: verify what you write, no personal information, and be
 explicit about what you have *not* tested. A pattern that overstates its
 coverage is worse than none, because the next agent will trust it.
+
+If you add a platform module to `lib/` alongside a new pattern, add its unit
+tests too — see TOOLKIT.md. Untested code here propagates into other people's
+numbers.

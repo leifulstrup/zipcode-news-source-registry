@@ -1,0 +1,5 @@
+{
+  "fieldAliases": { "NEWEST": "NEWEST" },
+  "fields": [ { "name": "NEWEST", "type": "esriFieldTypeDate", "alias": "NEWEST" } ],
+  "features": [ { "attributes": { "NEWEST": 1787003220000 } } ]
+}

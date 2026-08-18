@@ -1,0 +1,5 @@
+[
+  { "incident_id": "1", "date_occ": "2026-08-14T00:00:00.000", "area_name": "Harbor              ", "zip_code": "90706" },
+  { "incident_id": "2", "date_occ": "2026-08-13T00:00:00.000", "area_name": "Central             ", "zip_code": "90706" },
+  { "incident_id": "1", "date_occ": "2026-08-14T00:00:00.000", "area_name": "Harbor              ", "zip_code": "90706" }
+]

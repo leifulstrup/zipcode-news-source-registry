@@ -1,0 +1,24 @@
+{
+  "name": "zipcode-news-source-registry",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Community-vetted local data sources, plus a reference toolkit for querying, cleaning and diagnosing them. Not published to npm — copy what you need.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "//test": "Bare --test auto-discovers test/**/*.test.mjs. `node --test test/` fails on Node 26, which resolves the directory as a module entry point.",
+    "test": "node --test",
+    "diagnose": "node bin/diagnose.mjs"
+  },
+  "keywords": [
+    "open-data",
+    "civic-data",
+    "socrata",
+    "arcgis",
+    "local-news"
+  ],
+  "//": "No dependencies, and none are wanted: this code is meant to be READ and COPIED into a publisher's own repo (see TOOLKIT.md), not installed. A dependency here would become an unaudited dependency in someone else's publishing pipeline."
+}

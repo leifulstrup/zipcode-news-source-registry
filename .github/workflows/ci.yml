@@ -1,0 +1,38 @@
+# Toolkit self-test. No secrets, no network: every test asserts pure functions or
+# URL construction against hand-written fixtures. Live-endpoint behaviour is
+# proven by running bin/diagnose.mjs against a real source, deliberately not here
+# — a CI job that depends on a municipal portal fails for reasons that have
+# nothing to do with this code, and a flaky check trains people to ignore it.
+name: Toolkit self-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false        # one bad version must not hide the others
+      matrix:
+        node: ['20', '22', '24', 'latest']
+    name: node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Unit tests
+        run: node --test
+      - name: diagnose --help works
+        run: node bin/diagnose.mjs --help
+      - name: diagnose exits 2 on a usage error
+        run: |
+          if node bin/diagnose.mjs; then
+            echo "::error::expected a usage error to exit non-zero"; exit 1
+          fi
+          node bin/diagnose.mjs; code=$?
+          if [ "$code" != "2" ]; then echo "::error::expected exit 2, got $code"; exit 1; fi
+          echo "usage error exits 2"

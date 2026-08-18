@@ -93,6 +93,24 @@ node bin/registry.mjs search lacity   # reverse lookup: who else uses this host
 node bin/registry.mjs export          # emit my approved sources to contribute back
 ```
 
+## Toolkit
+
+Beyond the data, this repo carries tested reference code for the parts of the
+work that are identical everywhere — querying Socrata and ArcGIS, cleaning what
+they return, and diagnosing a candidate source:
+
+```
+node bin/diagnose.mjs https://data.example.gov/resource/abcd-1234.json --zip 90706
+```
+
+`diagnose` identifies the platform, checks liveness, lists fields **with their
+types**, measures freshness from the data rather than the portal's metadata,
+probes retention, detects padded fields, works out how the source can be filtered
+to a ZIP — and prints a draft registry row.
+
+See **[TOOLKIT.md](TOOLKIT.md)**. Copy what you need; there is nothing to
+install.
+
 ## Leads, not authority — the rule that keeps this safe
 
 **An entry here is a lead, not a finding.** Importing one does not adopt it:
@@ -109,9 +127,13 @@ poisoned row is worth no more than a poisoned search result, because both must
 survive a live test and a human's approval before anything is published. Two
 further boundaries:
 
-- **Data only, never code.** A row records that a dataset exists and how to
-  filter it. Consumers write their own adapters. Shipping code through a shared
-  channel would be a supply-chain risk with no compensating benefit.
+- **Nothing here is auto-fetched and executed.** The repo does contain code —
+  `lib/` and `bin/diagnose.mjs`, see [TOOLKIT.md](TOOLKIT.md) — but it is a
+  reference implementation you read and copy into your own repo, and a tool you
+  run by hand while evaluating a source. There is no package to install and no
+  URL to import. Your adapter lives in your repository, under your review. The
+  boundary is not "no code"; it is that a shared repository must never become a
+  runtime dependency of a pipeline that publishes under your name.
 - **No contributor identity, ever.** No names, no emails, no coordinates, no
   instance URLs. `kit_version` records what verified a row, not who. Rows are
   public-record facts about public data sources and nothing else. Pull requests
