@@ -117,6 +117,21 @@ further boundaries:
   public-record facts about public data sources and nothing else. Pull requests
   containing personal information will be rejected.
 
+## Versioning
+
+The **schema and tooling** are versioned in [CHANGELOG.md](CHANGELOG.md) and
+tagged as [releases](https://github.com/leifulstrup/zipcode-news-source-registry/releases),
+so consumers know when the shape they parse has changed. Adding a column is a
+minor bump; renaming or removing one is major.
+
+**Data is not versioned.** New rows, corrections, and refreshed `last_verified`
+dates land continuously on `main` — pinning a release to freeze data would
+defeat the purpose, since a stale row is the exact failure mode this registry
+exists to avoid. Read `main` for data; read releases to know whether your parser
+needs updating.
+
+Current schema: **v2** (25 columns).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). In short: add or update rows in your
